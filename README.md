@@ -1,4 +1,4 @@
-# Official [Cyber Range](http://joshmadakor.tech/cyber-range) Project
+# Official Threat Hunting tor Project
 
 <img width="400" src="https://github.com/user-attachments/assets/44bac428-01bb-4fe9-9d85-96cba7698bee" alt="Tor Logo with the onion and a crosshair on it"/>
 
@@ -27,20 +27,21 @@ Management suspects that some employees may be using TOR browsers to bypass netw
 
 ### 1. Searched the `DeviceFileEvents` Table
 
-Searched for any file that had the string "tor" in it and discovered what looks like the user "employee" downloaded a TOR installer, did something that resulted in many TOR-related files being copied to the desktop, and the creation of a file called `tor-shopping-list.txt` on the desktop at `2024-11-08T22:27:19.7259964Z`. These events began at `2024-11-08T22:14:48.6065231Z`.
+Searched the DeviceFileEvents table for ANY file that had the string “tor” in it and discovered what looks like the user “keithjr2500” downloaded a tor installer, did something that resulted in many tor-related files being copied to the desktop and the reaction of a file calle “tor-shopping-list.txt” on the desktop at 2025-06-14T03:14:39.9631145Z. These events began at: 2025-06-14T03:01:01.0899181Z`.
 
 **Query used to locate events:**
 
 ```kql
-DeviceFileEvents  
-| where DeviceName == "threat-hunt-lab"  
-| where InitiatingProcessAccountName == "employee"  
-| where FileName contains "tor"  
-| where Timestamp >= datetime(2024-11-08T22:14:48.6065231Z)  
-| order by Timestamp desc  
-| project Timestamp, DeviceName, ActionType, FileName, FolderPath, SHA256, Account = InitiatingProcessAccountName
+DeviceFileEvents
+| where DeviceName == "ryantthreateven"
+| where InitiatingProcessAccountName == "keithjr2500"
+| where FileName contains "tor"
+| where Timestamp >= datetime(2025-06-14T03:01:01.0899181Z)
+| order by Timestamp desc 
+| project Timestamp, DeviceName, ActionType, FileName, FolderPath, SHA256, InitiatingProcessAccountName == InitiatingProcessAccountName
 ```
-<img width="1212" alt="image" src="https://github.com/user-attachments/assets/71402e84-8767-44f8-908c-1805be31122d">
+<![image](https://github.com/user-attachments/assets/8018adbd-bfc1-496f-99b5-991294f2889a)>
+
 
 ---
 
